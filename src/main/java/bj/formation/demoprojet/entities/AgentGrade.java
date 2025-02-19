@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -20,9 +22,9 @@ public class AgentGrade implements Serializable {
     @Column(name = "agen_grade_id")
     private int id;
     @Column(name = "agen_grade_date_debut")
-    private Date dateDebut;
+    private LocalDate dateDebut;
     @Column(name = "agen_grade_date_fin")
-    private Date dateFin;
+    private LocalDate dateFin;
 
     //liaison avec agent
     @ManyToOne(fetch = FetchType.LAZY)

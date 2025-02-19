@@ -13,10 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Entity(name="t_enfant")
 public class Enfant implements Serializable {
-
-
     @Id()
-
     @Column(name = "enfan_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

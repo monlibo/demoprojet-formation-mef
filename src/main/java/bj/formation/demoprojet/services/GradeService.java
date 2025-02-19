@@ -1,7 +1,10 @@
 package bj.formation.demoprojet.services;
 
+import bj.formation.demoprojet.dtos.request.GradeDto;
 import bj.formation.demoprojet.entities.Grade;
 import bj.formation.demoprojet.repositories.GradeRepository;
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,20 +18,16 @@ public class GradeService {
         this.gradeRepository = gradeRepository;
     }
 
-    public  Grade saveGrade(Grade grade)
-    {
-        return gradeRepository.save(grade);
+    public String saveGrade(GradeDto payload) {
+        Grade existingGrade = gradeRepository.findById(payload.code()).orElse(null);
 
-    }
+        if (existingGrade != null) {
+            return "Grade with code " + payload.code() + " already exists";
+        }
 
-//    public List<Grade> findAll()
-//    {
-//        return gradeRepository.findAll();
-//
-//    }
+        Grade grade = new Grade(payload.code(), payload.libelle(), payload.indice());
+        gradeRepository.save(grade);
 
-    // Méthode pour récupérer tous les grades
-    public List<Grade> findAllGrades() {
-        return gradeRepository.findAll();
+        return "Grade saved successfully";
     }
 }

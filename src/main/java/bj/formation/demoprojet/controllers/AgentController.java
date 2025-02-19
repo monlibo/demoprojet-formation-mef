@@ -1,31 +1,44 @@
 package bj.formation.demoprojet.controllers;
 
-import bj.formation.demoprojet.dtos.request.CreateAgentWithEnfantRequest;
-import bj.formation.demoprojet.entities.Agent;
-import bj.formation.demoprojet.entities.Enfant;
-import bj.formation.demoprojet.entities.Grade;
+import bj.formation.demoprojet.dtos.request.CreateAgentDto;
+import bj.formation.demoprojet.dtos.request.UpdateAgentDto;
+import bj.formation.demoprojet.dtos.response.HttpResponse;
 import bj.formation.demoprojet.services.AgentService;
+import com.fasterxml.jackson.databind.ser.Serializers;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
-import java.util.List;
 
 @RestController
-@RequestMapping("/api/agents")
-public class AgentController {
+@RequestMapping("/agents")
+public class AgentController extends BaseController {
 
     @Autowired
     private AgentService agentService;
 
+    @GetMapping
+    public ResponseEntity<?> list() {
+        return response(agentService.findAllPaginated(), "Agents retrieved successfully");
+    }
+
     @PostMapping("/create")
-    public ResponseEntity<Agent>  creerAgentAvecEnfantsEtGrades(@RequestBody CreateAgentWithEnfantRequest payload, HttpServletResponse response
+    public ResponseEntity<?> create(@RequestBody CreateAgentDto payload
     ) throws ParseException {
+        return response(agentService.create(payload), "Agent created successfully");
+    }
 
+    @GetMapping("/{matricule}")
+    public ResponseEntity<?> get(@PathVariable String matricule
+    ) throws ParseException {
+        return response(agentService.findByMatricule(matricule), "Agent created successfully");
+    }
 
-        return ResponseEntity.ok(agentService.createAgent(payload));
+    @PutMapping("/{matricule}")
+    public ResponseEntity<?> update(@RequestBody UpdateAgentDto payload, @PathVariable String matricule
+    ) throws ParseException {
+        return response(agentService.update(payload, matricule), "Agent created successfully");
     }
 }

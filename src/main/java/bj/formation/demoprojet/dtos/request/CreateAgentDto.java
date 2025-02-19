@@ -1,8 +1,11 @@
 package bj.formation.demoprojet.dtos.request;
 
+import lombok.Builder;
+
 import java.util.List;
 
-public record CreateAgentWithEnfantRequest(
+
+public record CreateAgentDto(
         String matricule,
         String nom,
         String prenom,
@@ -12,8 +15,8 @@ public record CreateAgentWithEnfantRequest(
         int allocationFamiliale,
         int nbreEnfant,
         boolean actif,
-        List<EnfantDto> enfants
-
+        List<EnfantDto> enfants,
+        String grade
 ) {
 }
 

@@ -9,15 +9,13 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-@Data
+//@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name="t_grade")
 
 public class Grade implements Serializable {
-
     @Id
-
     @Column(name = "grad_code", length=10)
     private String code;
     @Column(name = "grad_libelle", length=150)
