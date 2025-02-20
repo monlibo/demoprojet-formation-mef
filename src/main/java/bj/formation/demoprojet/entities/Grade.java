@@ -1,11 +1,10 @@
 package bj.formation.demoprojet.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -28,4 +27,6 @@ public class Grade implements Serializable {
     public Grade(String code) {
         this.code = code;
     }
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "grade")
+    private Set<AgentGrade> listeGrades ;
 }

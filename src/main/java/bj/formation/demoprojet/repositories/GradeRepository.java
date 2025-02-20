@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GradeRepository extends JpaRepository<Grade, String> {
+    Grade findByIndice(int indice);
 }

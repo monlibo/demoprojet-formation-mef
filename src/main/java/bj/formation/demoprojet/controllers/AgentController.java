@@ -1,31 +1,77 @@
 package bj.formation.demoprojet.controllers;
 
-import bj.formation.demoprojet.dtos.request.CreateAgentWithEnfantRequest;
+import bj.formation.demoprojet.dtos.AgentDto;
+import bj.formation.demoprojet.dtos.requests.UpdateAgentRequest;
 import bj.formation.demoprojet.entities.Agent;
-import bj.formation.demoprojet.entities.Enfant;
-import bj.formation.demoprojet.entities.Grade;
 import bj.formation.demoprojet.services.AgentService;
-import jakarta.servlet.http.HttpServletResponse;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/agents")
-public class AgentController {
+public class AgentController extends BaseController {
 
     @Autowired
     private AgentService agentService;
 
     @PostMapping("/create")
-    public ResponseEntity<Agent>  creerAgentAvecEnfantsEtGrades(@RequestBody CreateAgentWithEnfantRequest payload, HttpServletResponse response
-    ) throws ParseException {
-
-
-        return ResponseEntity.ok(agentService.createAgent(payload));
+    public ResponseEntity<?> creerAgentAvecEnfantsEtGrades(@RequestBody AgentDto payload) {
+        try {
+            agentService.createAgent(payload);
+            return response("Agent créé avec succès");
+        } catch (IllegalArgumentException ex) {
+            // Cas de doublon
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        } catch (ParseException ex) {
+            // Renvoie un statut 500 en cas d'erreur de format de date
+            return ResponseEntity.status(500).body("Erreur de format de date : " + ex.getMessage());
+        } catch (Exception ex) {
+            // Capture toutes les autres exceptions imprévues
+            return ResponseEntity.status(500).body("Erreur interne du serveur : " + ex.getMessage());
+        }
     }
+
+
+    @GetMapping("/{matricule}")
+    public ResponseEntity<Agent> getAgentByMatricule(@PathVariable String matricule) {
+        Agent agent = agentService.getAgentByMatricule(matricule);
+        if (agent != null) {
+            return ResponseEntity.ok(agent);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    @PutMapping("/{matricule}")
+    public ResponseEntity<String> updateAgent(
+            @PathVariable("matricule") String matricule,
+            @RequestBody UpdateAgentRequest payload
+    ) {
+        try {
+            agentService.updateAgent(matricule, payload);
+            return ResponseEntity.ok("Agent mis à jour avec succès");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erreur : Agent introuvable ou mise à jour échouée");
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<Agent>> getAllAgents(
+            @RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Agent> agents = agentService.getAllAgents(pageable);
+        return ResponseEntity.ok(agents);
+    }
+
+
+
+
 }

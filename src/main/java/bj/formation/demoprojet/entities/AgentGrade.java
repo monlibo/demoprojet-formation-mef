@@ -16,7 +16,7 @@ public class AgentGrade implements Serializable {
 
 
     @Id
-
+    @GeneratedValue(generator = "Agent",strategy = GenerationType.AUTO)
     @Column(name = "agen_grade_id")
     private int id;
     @Column(name = "agen_grade_date_debut")

@@ -1,8 +1,8 @@
-package bj.formation.demoprojet.dtos.request;
+package bj.formation.demoprojet.dtos;
 
 import java.util.List;
 
-public record CreateAgentWithEnfantRequest(
+public record AgentDto(
         String matricule,
         String nom,
         String prenom,

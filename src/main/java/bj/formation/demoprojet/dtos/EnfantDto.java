@@ -1,4 +1,4 @@
-package bj.formation.demoprojet.dtos.request;
+package bj.formation.demoprojet.dtos;
 
 public record EnfantDto(
 

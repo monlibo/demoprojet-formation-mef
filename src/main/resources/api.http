@@ -1,0 +1,14 @@
+#GET  http://localhost:8080/api/agents/A12345
+
+PUT http://localhost:8080/api/agents/85552gg8855
+{
+  "nom": "Durand",
+  "prenom": "Jean",
+  "dateNaissance": "1990-05-10",
+  "indice": 200,
+  "salaireBase": 350000,
+  "allocationFamiliale": 25000,
+  "nbreEnfant": 2,
+  "actif": true
+}
+
