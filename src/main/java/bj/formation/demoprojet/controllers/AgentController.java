@@ -4,6 +4,7 @@ import bj.formation.demoprojet.dtos.AgentDto;
 import bj.formation.demoprojet.dtos.requests.UpdateAgentRequest;
 import bj.formation.demoprojet.entities.Agent;
 import bj.formation.demoprojet.services.AgentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,19 +23,14 @@ public class AgentController extends BaseController {
     private AgentService agentService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> creerAgentAvecEnfantsEtGrades(@RequestBody AgentDto payload) {
+    public ResponseEntity<?> creerAgentAvecEnfantsEtGrades(@Valid @RequestBody AgentDto payload) {
         try {
             agentService.createAgent(payload);
             return response("Agent créé avec succès");
         } catch (IllegalArgumentException ex) {
-            // Cas de doublon
             return ResponseEntity.badRequest().body(ex.getMessage());
         } catch (ParseException ex) {
-            // Renvoie un statut 500 en cas d'erreur de format de date
             return ResponseEntity.status(500).body("Erreur de format de date : " + ex.getMessage());
-        } catch (Exception ex) {
-            // Capture toutes les autres exceptions imprévues
-            return ResponseEntity.status(500).body("Erreur interne du serveur : " + ex.getMessage());
         }
     }
 

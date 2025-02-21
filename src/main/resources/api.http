@@ -1,14 +1,47 @@
 #GET  http://localhost:8080/api/agents/A12345
 
-PUT http://localhost:8080/api/agents/85552gg8855
+POST  http://localhost:8080/api/agents/create
 {
-  "nom": "Durand",
-  "prenom": "Jean",
-  "dateNaissance": "1990-05-10",
-  "indice": 200,
-  "salaireBase": 350000,
-  "allocationFamiliale": 25000,
-  "nbreEnfant": 2,
-  "actif": true
+  "matricule": "987654",
+  "nom": "TCHAKON",
+  "prenom": "Koffi",
+  "dateNaissance": "1985-07-10",
+  "email": "koffi.tchakon@example.com",
+  "telephone": "+2250701123456",
+  "adresse": "Abidjan, Côte d'Ivoire",
+  "sexe": "M",
+  "fonction": "Ingénieur Réseaux",
+  "enfants": [
+    {
+      "nom": "TCHAKON",
+      "prenom": "Yawovi",
+      "dateNaissance": "2012-11-25"
+    },
+    {
+      "nom": "TCHAKON",
+      "prenom": "Afi",
+      "dateNaissance": "2016-04-14"
+    }
+  ],
+  "grades": [
+    {
+      "code": "GR005",
+      "designation": "Chef de Projet IT",
+      "dateObtention": "2021-09-30"
+    }
+  ]
 }
+
+
+#PUT http://localhost:8080/api/agents/85552gg8855
+#{
+#  "nom": "Durand",
+#  "prenom": "Jean",
+#  "dateNaissance": "1990-05-10",
+#  "indice": 200,
+#  "salaireBase": 350000,
+#  "allocationFamiliale": 25000,
+#  "nbreEnfant": 2,
+#  "actif": true
+#}
 
