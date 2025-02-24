@@ -85,16 +85,6 @@ public class AgentService {
         return agent;
     }
 
-//    private Grade findOrCreateGrade(int indice) {
-//        Grade grade = gradeRepository.findByIndice(indice);
-//        if (grade == null) {
-//            grade = new Grade("A1-" + indice);
-//            grade.setLibelle("Grade A1" + indice);
-//            grade.setIndice(indice);
-//            gradeRepository.save(grade);
-//        }
-//        return grade;
-//    }
 private Grade findOrCreateGrade(int indice) {
     Grade grade = gradeRepository.findByIndice(indice);
     if (grade == null) {

@@ -14,7 +14,7 @@ public class NotificationService {
     public CompletableFuture<Void> sendMessage(String matricule) {
         try {
             Thread.sleep(10000); // Pause de 10 secondes (10 000 ms)
-            logger.info("Notification: Message envoyé à l'agent avec matricule {}", matricule);
+            logger.info("Message envoyé à l'agent avec matricule {}", matricule);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             logger.error("Erreur lors de l'envoi du message à l'agent {}", matricule, e);
