@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/agents")
@@ -36,7 +37,7 @@ public class AgentController extends BaseController {
 
 
     @GetMapping("/{matricule}")
-    public ResponseEntity<Agent> getAgentByMatricule(@PathVariable String matricule) {
+    public ResponseEntity<Agent> getAgentByMatricule(@Valid @PathVariable String matricule) {
         Agent agent = agentService.getAgentByMatricule(matricule);
         if (agent != null) {
             return ResponseEntity.ok(agent);
@@ -46,7 +47,7 @@ public class AgentController extends BaseController {
     }
 
     @PutMapping("/{matricule}")
-    public ResponseEntity<String> updateAgent(
+    public ResponseEntity<String> updateAgent(@Valid
             @PathVariable("matricule") String matricule,
             @RequestBody UpdateAgentRequest payload
     ) {
@@ -67,7 +68,17 @@ public class AgentController extends BaseController {
         return ResponseEntity.ok(agents);
     }
 
+    @GetMapping("/lowest-indice")
+    public ResponseEntity<?> getAgentsWithLowestIndice() {
+        List<Agent> agents = agentService.getAgentsWithLowestIndice();
+        return response(agents, "Agents avec l'indice le plus bas récupérés avec succès");
+    }
 
+    @GetMapping("/highest-indice")
+    public ResponseEntity<?> getAgentsWithHighstIndice() {
+        List<Agent> agents = agentService.getAgentsWithHighstIndice();
+        return response(agents, "Agents avec l'indice le plus haut récupérés avec succès");
+    }
 
 
 }

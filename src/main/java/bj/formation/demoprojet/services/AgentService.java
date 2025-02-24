@@ -14,6 +14,7 @@ import bj.formation.demoprojet.repositories.AgentGradeRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import java.util.Random;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,13 +27,18 @@ public class AgentService {
     private final EnfantRepository enfantRepository;
     private final GradeRepository gradeRepository;
     private final AgentGradeRepository agentGradeRepository;
+    private static final String[] CATEGORIES = {"A1", "A2", "B1", "B2"};
+    private static final Random RANDOM = new Random();
+
+    private final NotificationService notificationService;
 
 
-    public AgentService(AgentRepository agentRepository, EnfantRepository enfantRepository, GradeRepository gradeRepository, AgentGradeRepository agentGradeRepository) {
+    public AgentService(AgentRepository agentRepository, EnfantRepository enfantRepository, GradeRepository gradeRepository, AgentGradeRepository agentGradeRepository, NotificationService notificationService) {
         this.agentRepository = agentRepository;
         this.enfantRepository = enfantRepository;
         this.gradeRepository = gradeRepository;
         this.agentGradeRepository = agentGradeRepository;
+        this.notificationService = notificationService;
     }
 
     public Agent createAgent(AgentDto payload) throws ParseException {
@@ -74,19 +80,32 @@ public class AgentService {
         AgentGrade agentGrade = createAgentGrade(agent, grade);
         agentGradeRepository.save(agentGrade);
 
+        notificationService.sendMessage(agent.getMatricule());
+
         return agent;
     }
 
-    private Grade findOrCreateGrade(int indice) {
-        Grade grade = gradeRepository.findByIndice(indice);
-        if (grade == null) {
-            grade = new Grade("Code-" + indice);
-            grade.setLibelle("Grade " + indice);
-            grade.setIndice(indice);
-            gradeRepository.save(grade);
-        }
-        return grade;
+//    private Grade findOrCreateGrade(int indice) {
+//        Grade grade = gradeRepository.findByIndice(indice);
+//        if (grade == null) {
+//            grade = new Grade("A1-" + indice);
+//            grade.setLibelle("Grade A1" + indice);
+//            grade.setIndice(indice);
+//            gradeRepository.save(grade);
+//        }
+//        return grade;
+//    }
+private Grade findOrCreateGrade(int indice) {
+    Grade grade = gradeRepository.findByIndice(indice);
+    if (grade == null) {
+        String categorieAleatoire = CATEGORIES[RANDOM.nextInt(CATEGORIES.length)];
+        grade = new Grade(categorieAleatoire + "-" + indice);
+        grade.setLibelle("Grade " + categorieAleatoire + "-" + indice);
+        grade.setIndice(indice);
+        gradeRepository.save(grade);
     }
+    return grade;
+}
 
     private AgentGrade createAgentGrade(Agent agent, Grade grade) {
         AgentGrade agentGrade = new AgentGrade();
@@ -140,6 +159,14 @@ public class AgentService {
 
     public Page<Agent> getAllAgents(Pageable pageable) {
         return agentRepository.findAll(pageable);
+    }
+
+    public List<Agent> getAgentsWithLowestIndice() {
+        return agentRepository.findAgentsWithLowestIndice();
+    }
+
+    public List<Agent> getAgentsWithHighstIndice() {
+        return agentRepository.findAgentsWithHighsIndice();
     }
 
 

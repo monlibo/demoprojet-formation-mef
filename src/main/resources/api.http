@@ -2,35 +2,34 @@
 
 POST  http://localhost:8080/api/agents/create
 {
-  "matricule": "987654",
-  "nom": "TCHAKON",
-  "prenom": "Koffi",
-  "dateNaissance": "1985-07-10",
-  "email": "koffi.tchakon@example.com",
-  "telephone": "+2250701123456",
-  "adresse": "Abidjan, Côte d'Ivoire",
-  "sexe": "M",
-  "fonction": "Ingénieur Réseaux",
+  "matricule": "14e215",
+  "nom": "KOUADIO",
+  "prenom": "Franck",
+  "dateNaissance": "1987-06-15",
+  "indice": 2,
+  "salaireBase": 1200,
+  "allocationFamiliale": 150,
+  "nbreEnfant": 3,
+  "actif": true,
   "enfants": [
     {
-      "nom": "TCHAKON",
-      "prenom": "Yawovi",
-      "dateNaissance": "2012-11-25"
+      "nom": "KOUADIO",
+      "prenom": "Adjoua",
+      "dateNaissance": "2013-03-21"
     },
     {
-      "nom": "TCHAKON",
-      "prenom": "Afi",
-      "dateNaissance": "2016-04-14"
-    }
-  ],
-  "grades": [
+      "nom": "KOUADIO",
+      "prenom": "Koffi",
+      "dateNaissance": "2016-09-10"
+    },
     {
-      "code": "GR005",
-      "designation": "Chef de Projet IT",
-      "dateObtention": "2021-09-30"
+      "nom": "KOUADIO",
+      "prenom": "Akissi",
+      "dateNaissance": "2019-12-05"
     }
   ]
 }
+
 
 
 #PUT http://localhost:8080/api/agents/85552gg8855
